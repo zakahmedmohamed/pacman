@@ -134,6 +134,42 @@ class GoWestAgent(Agent):
                 legal.remove(Directions.STOP)
                 return api.makeMove(random.choice(legal), legal)
             
+#HungryAgent
+#Goes towards the closest food available
+
+class HungryAgent(Agent):
+    
+    def getAction(self, state):
+        foodLocations = api.food(state)
+        legal = api.legalActions(state)
+        legal.remove(Directions.STOP)
+        pacmanLocation = api.whereAmI(state)
+        closestFood = foodLocations[0]
+        
+        for location in foodLocations:
+            if util.manhattanDistance(pacmanLocation, location) < util.manhattanDistance(pacmanLocation, closestFood):
+                closestFood = location
+        
+        pacmanX, pacmanY = pacmanLocation
+        closestFoodX, closestFoodY = closestFood
+        
+        if pacmanX < closestFoodX and pacmanY == closestFoodY and Directions.EAST in legal:
+            return api.makeMove(Directions.EAST, legal)
+        elif pacmanX > closestFoodX and pacmanY == closestFoodY and Directions.WEST in legal:
+            return api.makeMove(Directions.WEST, legal) 
+        elif pacmanY < closestFoodY and pacmanX == closestFoodX and Directions.NORTH in legal:
+            return api.makeMove(Directions.NORTH, legal)
+        elif pacmanY > closestFoodY and pacmanX == closestFoodX and Directions.SOUTH in legal:
+            return api.makeMove(Directions.SOUTH, legal)  
+        elif pacmanX < closestFoodX and pacmanY > closestFoodY and (Directions.EAST in legal and Directions.SOUTH in legal) :
+            return api.makeMove(random.choice([Directions.EAST, Directions.SOUTH]), legal)
+        elif pacmanX > closestFoodX and pacmanY > closestFoodY and (Directions.WEST in legal and Directions.SOUTH in legal) :
+            return api.makeMove(random.choice([Directions.WEST, Directions.SOUTH]), legal)
+        elif pacmanX < closestFoodX and pacmanY < closestFoodY and (Directions.EAST in legal and Directions.NORTH in legal) :
+            return api.makeMove(random.choice([Directions.EAST, Directions.NORTH]), legal)
+        else:
+            return api.makeMove(random.choice(legal),legal)
+
 
     
                                 
