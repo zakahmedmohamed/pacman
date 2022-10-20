@@ -119,3 +119,21 @@ class SensingAgent(Agent):
         # getAction has to return a move. Here we pass "STOP" to the
         # API to ask Pacman to stay where they are.
         return api.makeMove(Directions.STOP, legal)
+
+#GoWestAgent
+#Always picks the west direction if available
+
+class GoWestAgent(Agent):
+    
+    def getAction(self, state):
+        legal = api.legalActions(state)
+        if Directions.WEST in legal:
+            return api.makeMove(Directions.WEST, legal)
+        else:
+            if Directions.STOP in legal:
+                legal.remove(Directions.STOP)
+                return api.makeMove(random.choice(legal), legal)
+            
+
+    
+                                
