@@ -169,7 +169,4 @@ class HungryAgent(Agent):
             return api.makeMove(random.choice([Directions.EAST, Directions.NORTH]), legal)
         else:
             return api.makeMove(random.choice(legal),legal)
-
-
-    
                                 
